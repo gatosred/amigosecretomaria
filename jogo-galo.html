@@ -28,6 +28,19 @@
             font-size: 1.1em;
         }
 
+        .game-header-imgs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .game-header-imgs img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
         .player-info {
             display: flex;
             justify-content: center;
@@ -237,8 +250,13 @@
 
     <div class="game-container">
         <div class="game-header">
-            <h1>⭕ Jogo do Galo ❌</h1>
-            <p>Tu és o Gumball 🐱 - Jogas contra o Darwin 🐟</p>
+            <div class="game-header-imgs">
+                <img src="img/gumball.png" alt="Gumball">
+                <span style="font-size: 2em; color: #ff6b9d;">VS</span>
+                <img src="img/darwin.png" alt="Darwin">
+            </div>
+            <h1>Jogo do Galo</h1>
+            <p>Tu és o Gumball - Jogas contra o Darwin!</p>
         </div>
 
         <div class="difficulty-selector">

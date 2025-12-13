@@ -391,6 +391,30 @@ body {
 .jogo-icon {
     font-size: 3em;
     margin-bottom: 15px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.jogo-icon img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.jogo-card:hover .jogo-icon img {
+    transform: scale(1.1);
+}
+
+.jogo-icon-duplo {
+    gap: 5px;
+}
+
+.jogo-icon-duplo img {
+    width: 55px;
+    height: 55px;
 }
 
 .jogo-card h3 {
