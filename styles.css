@@ -1,0 +1,641 @@
+/* Reset e base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0a0a0f;
+    color: #e0e0e0;
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Estrelinhas animadas */
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    background:
+        radial-gradient(1px 1px at 20px 30px, white, transparent),
+        radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 50px 160px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 90px 40px, white, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 160px 120px, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1.5px 1.5px at 200px 50px, white, transparent),
+        radial-gradient(1px 1px at 230px 180px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 280px 90px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 320px 140px, white, transparent),
+        radial-gradient(1.5px 1.5px at 350px 60px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 400px 200px, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 450px 30px, white, transparent),
+        radial-gradient(1px 1px at 500px 170px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1.5px 1.5px at 550px 100px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 600px 50px, white, transparent),
+        radial-gradient(1px 1px at 650px 190px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 700px 80px, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1.5px 1.5px at 750px 150px, white, transparent),
+        radial-gradient(1px 1px at 800px 20px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 100px 250px, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 200px 300px, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1.5px 1.5px at 300px 350px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 400px 280px, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 500px 320px, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 600px 400px, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1.5px 1.5px at 700px 350px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 150px 450px, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 250px 500px, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 350px 480px, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1.5px 1.5px at 450px 520px, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 550px 450px, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 650px 500px, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 750px 480px, rgba(255,255,255,0.4), transparent);
+    background-repeat: repeat;
+    background-size: 800px 600px;
+    animation: twinkle 8s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0.6; }
+}
+
+/* Header */
+.header {
+    text-align: center;
+    padding: 30px 20px;
+    background: linear-gradient(180deg, rgba(0, 212, 255, 0.1) 0%, transparent 100%);
+}
+
+.header-logo {
+    max-width: 100%;
+    width: 300px;
+    height: auto;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.5));
+}
+
+.header-image {
+    max-width: 100%;
+    width: 500px;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
+    margin-bottom: 20px;
+    border: 3px solid rgba(0, 212, 255, 0.5);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.titulo-principal {
+    font-size: 3em;
+    color: #00d4ff;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    margin-bottom: 10px;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
+    to { text-shadow: 0 0 30px rgba(0, 212, 255, 0.8), 0 0 40px rgba(255, 107, 157, 0.4); }
+}
+
+.subtitulo {
+    font-size: 1.5em;
+    color: #ff6b9d;
+    font-style: italic;
+}
+
+/* Índice */
+.indice {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    border: 2px solid rgba(0, 212, 255, 0.3);
+}
+
+.indice h2 {
+    color: #00d4ff;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.indice ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.indice li {
+    margin: 5px 0;
+}
+
+.indice a {
+    color: #e0e0e0;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: block;
+    border-radius: 10px;
+    background: rgba(0, 212, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.indice a:hover {
+    background: rgba(0, 212, 255, 0.3);
+    transform: translateX(5px);
+    color: #00d4ff;
+}
+
+/* Conteúdo principal */
+.conteudo {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Secções */
+.seccao {
+    margin-bottom: 50px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.seccao h2 {
+    color: #00d4ff;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+}
+
+.seccao p {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+/* Personagens Grid */
+.personagens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.personagem-card {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 107, 157, 0.05));
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.personagem-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+    border-color: rgba(0, 212, 255, 0.5);
+}
+
+.personagem-emoji {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.personagem-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3em;
+    margin: 0 auto 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.personagem-avatar.gumball {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    box-shadow: 0 5px 20px rgba(52, 152, 219, 0.5);
+}
+
+.personagem-avatar.darwin {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    box-shadow: 0 5px 20px rgba(243, 156, 18, 0.5);
+}
+
+.personagem-avatar.anais {
+    background: linear-gradient(135deg, #ff9ff3, #f368e0);
+    box-shadow: 0 5px 20px rgba(243, 104, 224, 0.5);
+}
+
+.personagem-avatar.nicole {
+    background: linear-gradient(135deg, #00d4ff, #0099cc);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.5);
+}
+
+.personagem-avatar.richard {
+    background: linear-gradient(135deg, #ffc0cb, #ff91a4);
+    box-shadow: 0 5px 20px rgba(255, 145, 164, 0.5);
+}
+
+.personagem-avatar.carrie {
+    background: linear-gradient(135deg, #636e72, #2d3436);
+    box-shadow: 0 5px 20px rgba(99, 110, 114, 0.5);
+}
+
+.personagem-avatar.penny {
+    background: linear-gradient(135deg, #fdcb6e, #f8b739);
+    box-shadow: 0 5px 20px rgba(253, 203, 110, 0.5);
+}
+
+.personagem-avatar.tobias {
+    background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #1dd1a1, #5f27cd);
+    box-shadow: 0 5px 20px rgba(255, 107, 107, 0.5);
+}
+
+.personagem-card:hover .personagem-avatar {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.personagem-img {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    margin: 0 auto 15px;
+    display: block;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    filter: drop-shadow(0 5px 15px rgba(0, 212, 255, 0.3));
+    transition: transform 0.3s ease;
+}
+
+.personagem-card:hover .personagem-img {
+    transform: scale(1.1) rotate(3deg);
+}
+
+.personagem-card h3 {
+    color: #ff6b9d;
+    margin-bottom: 10px;
+}
+
+.personagem-card p {
+    font-size: 0.95em;
+    color: #bbb;
+    margin-bottom: 0;
+}
+
+/* Lista de curiosidades */
+.lista-curiosidades {
+    list-style: none;
+}
+
+.lista-curiosidades li {
+    padding: 12px 15px;
+    margin: 8px 0;
+    background: rgba(0, 212, 255, 0.05);
+    border-radius: 10px;
+    border-left: 3px solid #00d4ff;
+    transition: all 0.3s ease;
+}
+
+.lista-curiosidades li:hover {
+    background: rgba(0, 212, 255, 0.1);
+    transform: translateX(10px);
+}
+
+/* Frases */
+.frases-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.frase-card {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 107, 157, 0.3);
+    position: relative;
+}
+
+.frase-card::before {
+    content: '"';
+    position: absolute;
+    top: 5px;
+    left: 15px;
+    font-size: 3em;
+    color: rgba(255, 107, 157, 0.3);
+    font-family: Georgia, serif;
+}
+
+.frase-card p {
+    font-style: italic;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    padding-top: 20px;
+}
+
+.frase-card span {
+    color: #ff6b9d;
+    font-weight: bold;
+}
+
+/* Jogos Grid */
+.intro-jogos, .intro-videos, .intro-quiz {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.1em;
+    color: #bbb;
+}
+
+.jogos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.jogo-card {
+    display: block;
+    background: linear-gradient(135deg, #0f3460, #16213e);
+    padding: 25px;
+    border-radius: 15px;
+    border: 2px solid #00d4ff;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.jogo-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
+    border-color: #ff6b9d;
+}
+
+.jogo-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+}
+
+.jogo-card h3 {
+    color: #00d4ff;
+    margin-bottom: 10px;
+}
+
+.jogo-card p {
+    color: #bbb;
+    font-size: 0.9em;
+    margin-bottom: 0;
+}
+
+/* Vídeos */
+.videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.video-card {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.video-card h3 {
+    padding: 15px;
+    color: #ff6b9d;
+    font-size: 1em;
+    background: rgba(0, 212, 255, 0.1);
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Quiz */
+.quiz-question {
+    background: rgba(0, 212, 255, 0.05);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.quiz-question h3 {
+    color: #00d4ff;
+    margin-bottom: 15px;
+}
+
+.quiz-question > p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.quiz-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.quiz-options button {
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 2px solid #00d4ff;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.quiz-options button:hover:not(:disabled) {
+    background: #00d4ff;
+    color: #0a0a0f;
+    transform: scale(1.02);
+}
+
+.quiz-options button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.feedback {
+    margin-top: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    min-height: 30px;
+}
+
+.feedback.correct {
+    color: #52b788;
+}
+
+.feedback.incorrect {
+    color: #ff6b9d;
+}
+
+#quiz-result {
+    text-align: center;
+    padding: 30px;
+}
+
+#quiz-result h3 {
+    color: #52b788;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+#score-text {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+#result-message {
+    font-size: 1.3em;
+    color: #ff6b9d;
+    margin-bottom: 25px;
+}
+
+.btn-restart {
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #00d4ff, #0099cc);
+    border: none;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-restart:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.5);
+}
+
+/* Amigo Secreto */
+.amigo-secreto-section {
+    background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(0, 212, 255, 0.05));
+    border: 2px solid rgba(255, 107, 157, 0.3);
+    text-align: center;
+}
+
+.amigo-secreto-section h2 {
+    color: #ff6b9d;
+    border-bottom-color: rgba(255, 107, 157, 0.3);
+}
+
+.dica-box {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+.dica-texto {
+    font-size: 1.8em;
+    color: #00d4ff;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+.dica-decoracao {
+    font-size: 1.5em;
+    letter-spacing: 10px;
+}
+
+/* Hidden */
+.hidden {
+    display: none !important;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 30px;
+    margin-top: 50px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #666;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .titulo-principal {
+        font-size: 2em;
+    }
+
+    .subtitulo {
+        font-size: 1.2em;
+    }
+
+    .header-image {
+        width: 280px;
+    }
+
+    .seccao {
+        padding: 20px;
+    }
+
+    .seccao h2 {
+        font-size: 1.4em;
+    }
+
+    .indice ul {
+        grid-template-columns: 1fr;
+    }
+
+    .personagens-grid,
+    .frases-container,
+    .jogos-grid,
+    .videos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quiz-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .titulo-principal {
+        font-size: 1.6em;
+    }
+
+    .game-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .player-info {
+        flex-direction: column;
+        gap: 15px;
+    }
+}

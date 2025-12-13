@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Memória - Gumball</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .game-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .game-header h1 {
+            color: #00d4ff;
+            font-size: 2em;
+            text-shadow: 0 0 10px #00d4ff;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .game-info span {
+            background: rgba(0, 212, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid #00d4ff;
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 2px solid #00d4ff;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .memory-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .memory-card .card-back {
+            position: absolute;
+            font-size: 2em;
+        }
+
+        .memory-card .card-front {
+            position: absolute;
+            opacity: 0;
+            font-size: 2em;
+        }
+
+        .memory-card.flipped .card-back {
+            opacity: 0;
+        }
+
+        .memory-card.flipped .card-front {
+            opacity: 1;
+        }
+
+        .memory-card.flipped {
+            background: linear-gradient(135deg, #0f3460, #16213e);
+            border-color: #ff6b9d;
+        }
+
+        .memory-card.matched {
+            background: linear-gradient(135deg, #1b4332, #2d6a4f);
+            border-color: #52b788;
+            cursor: default;
+        }
+
+        .memory-card.matched:hover {
+            transform: none;
+        }
+
+        .btn-voltar {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .btn-voltar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.5);
+        }
+
+        .btn-restart {
+            display: inline-block;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .btn-restart:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .game-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .win-message {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(82, 183, 136, 0.3), rgba(27, 67, 50, 0.5));
+            border: 2px solid #52b788;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .win-message.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .win-message h2 {
+            color: #52b788;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .win-message p {
+            font-size: 1.2em;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .difficulty-selector {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .difficulty-selector button {
+            background: rgba(0, 212, 255, 0.2);
+            border: 2px solid #00d4ff;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .difficulty-selector button:hover,
+        .difficulty-selector button.active {
+            background: #00d4ff;
+            color: #0a0a0f;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+
+    <div class="game-container">
+        <div class="game-header">
+            <h1>🃏 Jogo da Memória</h1>
+            <p>Encontra os pares das personagens do Gumball!</p>
+        </div>
+
+        <div class="difficulty-selector">
+            <span>Dificuldade:</span>
+            <button onclick="setDifficulty('easy')" id="btn-easy">Fácil (8 cartas)</button>
+            <button onclick="setDifficulty('medium')" id="btn-medium" class="active">Médio (12 cartas)</button>
+            <button onclick="setDifficulty('hard')" id="btn-hard">Difícil (16 cartas)</button>
+        </div>
+
+        <div class="game-info">
+            <span>⏱️ Tempo: <span id="timer">0</span>s</span>
+            <span>🔄 Jogadas: <span id="moves">0</span></span>
+            <span>✅ Pares: <span id="pairs">0</span>/<span id="total-pairs">6</span></span>
+        </div>
+
+        <div class="memory-grid" id="memory-grid">
+            <!-- Cards will be generated by JavaScript -->
+        </div>
+
+        <div class="win-message" id="win-message">
+            <h2>🎉 Parabéns!</h2>
+            <p>Encontraste todos os pares em <span id="final-time">0</span> segundos com <span id="final-moves">0</span> jogadas!</p>
+        </div>
+
+        <div class="game-buttons">
+            <button onclick="restartGame()" class="btn-restart">🔄 Recomeçar</button>
+            <a href="index.html" class="btn-voltar">⬅️ Voltar ao Site</a>
+        </div>
+    </div>
+
+    <script>
+        // Personagens do Gumball com emojis
+        const characters = [
+            { emoji: '🐱', name: 'Gumball' },
+            { emoji: '🐟', name: 'Darwin' },
+            { emoji: '🐰', name: 'Anais' },
+            { emoji: '😺', name: 'Nicole' },
+            { emoji: '🐇', name: 'Richard' },
+            { emoji: '👻', name: 'Carrie' },
+            { emoji: '🥜', name: 'Penny' },
+            { emoji: '🌈', name: 'Tobias' }
+        ];
+
+        let difficulty = 'medium';
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        let timer = 0;
+        let timerInterval = null;
+        let canFlip = true;
+        let gameStarted = false;
+
+        function setDifficulty(level) {
+            difficulty = level;
+            document.querySelectorAll('.difficulty-selector button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${level}`).classList.add('active');
+            restartGame();
+        }
+
+        function getCardCount() {
+            switch(difficulty) {
+                case 'easy': return 4; // 4 pares = 8 cartas
+                case 'medium': return 6; // 6 pares = 12 cartas
+                case 'hard': return 8; // 8 pares = 16 cartas
+                default: return 6;
+            }
+        }
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function createCards() {
+            const pairCount = getCardCount();
+            const selectedCharacters = shuffleArray(characters).slice(0, pairCount);
+            cards = shuffleArray([...selectedCharacters, ...selectedCharacters]);
+
+            const grid = document.getElementById('memory-grid');
+            grid.innerHTML = '';
+
+            // Adjust grid columns based on difficulty
+            if (difficulty === 'easy') {
+                grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+            } else if (difficulty === 'medium') {
+                grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+            } else {
+                grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+            }
+
+            cards.forEach((char, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.dataset.index = index;
+                card.dataset.character = char.name;
+                card.innerHTML = `
+                    <span class="card-back">❓</span>
+                    <span class="card-front">${char.emoji}</span>
+                `;
+                card.addEventListener('click', () => flipCard(card));
+                grid.appendChild(card);
+            });
+
+            document.getElementById('total-pairs').textContent = pairCount;
+        }
+
+        function flipCard(card) {
+            if (!canFlip || card.classList.contains('flipped') || card.classList.contains('matched')) {
+                return;
+            }
+
+            if (!gameStarted) {
+                gameStarted = true;
+                timerInterval = setInterval(() => {
+                    timer++;
+                    document.getElementById('timer').textContent = timer;
+                }, 1000);
+            }
+
+            card.classList.add('flipped');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('moves').textContent = moves;
+                canFlip = false;
+
+                const [card1, card2] = flippedCards;
+
+                if (card1.dataset.character === card2.dataset.character) {
+                    // Match!
+                    setTimeout(() => {
+                        card1.classList.add('matched');
+                        card2.classList.add('matched');
+                        matchedPairs++;
+                        document.getElementById('pairs').textContent = matchedPairs;
+
+                        flippedCards = [];
+                        canFlip = true;
+
+                        if (matchedPairs === getCardCount()) {
+                            endGame();
+                        }
+                    }, 500);
+                } else {
+                    // No match
+                    setTimeout(() => {
+                        card1.classList.remove('flipped');
+                        card2.classList.remove('flipped');
+                        flippedCards = [];
+                        canFlip = true;
+                    }, 1000);
+                }
+            }
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+            document.getElementById('win-message').classList.add('show');
+            document.getElementById('final-time').textContent = timer;
+            document.getElementById('final-moves').textContent = moves;
+        }
+
+        function restartGame() {
+            clearInterval(timerInterval);
+            timer = 0;
+            moves = 0;
+            matchedPairs = 0;
+            flippedCards = [];
+            canFlip = true;
+            gameStarted = false;
+
+            document.getElementById('timer').textContent = '0';
+            document.getElementById('moves').textContent = '0';
+            document.getElementById('pairs').textContent = '0';
+            document.getElementById('win-message').classList.remove('show');
+
+            createCards();
+        }
+
+        // Initialize game
+        createCards();
+    </script>
+</body>
+</html>

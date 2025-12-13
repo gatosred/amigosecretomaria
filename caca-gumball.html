@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caça ao Gumball</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .game-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .game-header {
+            margin-bottom: 20px;
+        }
+
+        .game-header h1 {
+            color: #00d4ff;
+            font-size: 2em;
+            text-shadow: 0 0 10px #00d4ff;
+        }
+
+        .game-header p {
+            color: #ff6b9d;
+            font-size: 1.1em;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .game-info span {
+            background: rgba(0, 212, 255, 0.2);
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #00d4ff;
+            font-size: 1em;
+        }
+
+        .game-area {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            background: linear-gradient(135deg, #1a1a2e, #0f0f23);
+            border: 3px solid #00d4ff;
+            border-radius: 15px;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            cursor: crosshair;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .character {
+            position: absolute;
+            font-size: 3em;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+            user-select: none;
+            z-index: 10;
+        }
+
+        .character:hover {
+            transform: scale(1.2);
+        }
+
+        .character.clicked {
+            animation: pop 0.3s ease;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        .score-popup {
+            position: absolute;
+            font-size: 1.5em;
+            font-weight: bold;
+            pointer-events: none;
+            animation: scoreFloat 1s ease forwards;
+            z-index: 20;
+        }
+
+        .score-popup.positive {
+            color: #52b788;
+        }
+
+        .score-popup.negative {
+            color: #ff6b9d;
+        }
+
+        @keyframes scoreFloat {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-50px); }
+        }
+
+        .game-status {
+            font-size: 1.3em;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(0, 212, 255, 0.1);
+            min-height: 50px;
+        }
+
+        .game-status.ready {
+            background: rgba(255, 159, 67, 0.2);
+            color: #ff9f43;
+        }
+
+        .game-status.playing {
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+        }
+
+        .game-status.ended {
+            background: rgba(82, 183, 136, 0.2);
+            color: #52b788;
+        }
+
+        .btn-voltar {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .btn-voltar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.5);
+        }
+
+        .btn-start {
+            display: inline-block;
+            background: linear-gradient(135deg, #52b788, #2d6a4f);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+
+        .btn-start:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(82, 183, 136, 0.5);
+        }
+
+        .difficulty-selector {
+            margin-bottom: 20px;
+        }
+
+        .difficulty-selector button {
+            background: rgba(0, 212, 255, 0.2);
+            border: 2px solid #00d4ff;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .difficulty-selector button:hover,
+        .difficulty-selector button.active {
+            background: #00d4ff;
+            color: #0a0a0f;
+        }
+
+        .game-buttons {
+            margin-top: 20px;
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .instructions li {
+            margin: 5px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .instructions li::before {
+            content: attr(data-emoji);
+            position: absolute;
+            left: 0;
+        }
+
+        .high-score {
+            color: #ff9f43;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+
+    <div class="game-container">
+        <div class="game-header">
+            <h1>🎯 Caça ao Gumball</h1>
+            <p>Clica nas personagens antes que desapareçam!</p>
+        </div>
+
+        <div class="instructions">
+            <h3>Como jogar:</h3>
+            <ul>
+                <li data-emoji="🐱">Clica no Gumball = +10 pontos</li>
+                <li data-emoji="🐟">Clica no Darwin = +5 pontos</li>
+                <li data-emoji="🐰">Clica na Anais = +15 pontos (aparece pouco!)</li>
+                <li data-emoji="😺">Cuidado com a Nicole zangada = -10 pontos!</li>
+            </ul>
+        </div>
+
+        <div class="difficulty-selector">
+            <span>Dificuldade:</span>
+            <button onclick="setDifficulty('easy')" id="btn-easy">Fácil</button>
+            <button onclick="setDifficulty('medium')" id="btn-medium" class="active">Médio</button>
+            <button onclick="setDifficulty('hard')" id="btn-hard">Difícil</button>
+        </div>
+
+        <div class="game-info">
+            <span>⭐ Pontos: <span id="score">0</span></span>
+            <span>⏱️ Tempo: <span id="timer">30</span>s</span>
+            <span>🎯 Cliques: <span id="clicks">0</span></span>
+            <span class="high-score">🏆 Recorde: <span id="high-score">0</span></span>
+        </div>
+
+        <div class="game-area" id="game-area">
+            <!-- Characters will appear here -->
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 3em;">
+                🐱🐟🐰
+            </div>
+        </div>
+
+        <div class="game-status ready" id="game-status">
+            Clica em "Começar" para jogar!
+        </div>
+
+        <div class="game-buttons">
+            <button onclick="startGame()" class="btn-start" id="btn-start">▶️ Começar</button>
+            <a href="index.html" class="btn-voltar">⬅️ Voltar ao Site</a>
+        </div>
+    </div>
+
+    <script>
+        const characters = [
+            { emoji: '🐱', name: 'Gumball', points: 10, weight: 40 },
+            { emoji: '🐟', name: 'Darwin', points: 5, weight: 35 },
+            { emoji: '🐰', name: 'Anais', points: 15, weight: 15 },
+            { emoji: '😺', name: 'Nicole', points: -10, weight: 10 }
+        ];
+
+        let difficulty = 'medium';
+        let score = 0;
+        let clicks = 0;
+        let timeLeft = 30;
+        let gameInterval = null;
+        let spawnInterval = null;
+        let gameActive = false;
+        let highScore = localStorage.getItem('gumballHighScore') || 0;
+
+        document.getElementById('high-score').textContent = highScore;
+
+        const difficultySettings = {
+            easy: { spawnRate: 1500, disappearTime: 2500, maxCharacters: 2 },
+            medium: { spawnRate: 1000, disappearTime: 1800, maxCharacters: 3 },
+            hard: { spawnRate: 600, disappearTime: 1200, maxCharacters: 4 }
+        };
+
+        function setDifficulty(level) {
+            if (gameActive) return;
+            difficulty = level;
+            document.querySelectorAll('.difficulty-selector button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${level}`).classList.add('active');
+        }
+
+        function getRandomCharacter() {
+            const totalWeight = characters.reduce((sum, char) => sum + char.weight, 0);
+            let random = Math.random() * totalWeight;
+
+            for (const char of characters) {
+                random -= char.weight;
+                if (random <= 0) return char;
+            }
+            return characters[0];
+        }
+
+        function spawnCharacter() {
+            if (!gameActive) return;
+
+            const gameArea = document.getElementById('game-area');
+            const settings = difficultySettings[difficulty];
+
+            // Limita o número de personagens na tela
+            const currentCharacters = gameArea.querySelectorAll('.character');
+            if (currentCharacters.length >= settings.maxCharacters) return;
+
+            const char = getRandomCharacter();
+            const charElement = document.createElement('div');
+            charElement.className = 'character';
+            charElement.textContent = char.emoji;
+            charElement.dataset.points = char.points;
+            charElement.dataset.name = char.name;
+
+            // Posição aleatória
+            const maxX = gameArea.offsetWidth - 60;
+            const maxY = gameArea.offsetHeight - 60;
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+
+            charElement.style.left = `${x}px`;
+            charElement.style.top = `${y}px`;
+
+            charElement.addEventListener('click', (e) => {
+                if (!gameActive) return;
+
+                const points = parseInt(charElement.dataset.points);
+                score += points;
+                clicks++;
+
+                document.getElementById('score').textContent = score;
+                document.getElementById('clicks').textContent = clicks;
+
+                // Popup de pontos
+                showScorePopup(e.clientX, e.clientY, points);
+
+                charElement.classList.add('clicked');
+                setTimeout(() => {
+                    if (charElement.parentNode) {
+                        charElement.remove();
+                    }
+                }, 300);
+            });
+
+            gameArea.appendChild(charElement);
+
+            // Remove após algum tempo
+            setTimeout(() => {
+                if (charElement.parentNode && !charElement.classList.contains('clicked')) {
+                    charElement.style.opacity = '0';
+                    charElement.style.transition = 'opacity 0.3s';
+                    setTimeout(() => {
+                        if (charElement.parentNode) {
+                            charElement.remove();
+                        }
+                    }, 300);
+                }
+            }, settings.disappearTime);
+        }
+
+        function showScorePopup(x, y, points) {
+            const gameArea = document.getElementById('game-area');
+            const rect = gameArea.getBoundingClientRect();
+
+            const popup = document.createElement('div');
+            popup.className = `score-popup ${points > 0 ? 'positive' : 'negative'}`;
+            popup.textContent = points > 0 ? `+${points}` : points;
+
+            popup.style.left = `${x - rect.left}px`;
+            popup.style.top = `${y - rect.top}px`;
+
+            gameArea.appendChild(popup);
+
+            setTimeout(() => popup.remove(), 1000);
+        }
+
+        function startGame() {
+            if (gameActive) return;
+
+            gameActive = true;
+            score = 0;
+            clicks = 0;
+            timeLeft = 30;
+
+            document.getElementById('score').textContent = '0';
+            document.getElementById('clicks').textContent = '0';
+            document.getElementById('timer').textContent = '30';
+            document.getElementById('btn-start').textContent = '🎮 A jogar...';
+            document.getElementById('btn-start').disabled = true;
+
+            const statusElement = document.getElementById('game-status');
+            statusElement.className = 'game-status playing';
+            statusElement.textContent = 'Apanha as personagens! 🎯';
+
+            const gameArea = document.getElementById('game-area');
+            gameArea.innerHTML = '';
+
+            const settings = difficultySettings[difficulty];
+
+            // Timer do jogo
+            gameInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+
+            // Spawn de personagens
+            spawnInterval = setInterval(spawnCharacter, settings.spawnRate);
+            spawnCharacter(); // Spawn inicial
+        }
+
+        function endGame() {
+            gameActive = false;
+            clearInterval(gameInterval);
+            clearInterval(spawnInterval);
+
+            const gameArea = document.getElementById('game-area');
+            gameArea.innerHTML = '';
+
+            // Atualiza recorde
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('gumballHighScore', highScore);
+                document.getElementById('high-score').textContent = highScore;
+            }
+
+            const statusElement = document.getElementById('game-status');
+            statusElement.className = 'game-status ended';
+
+            let message = '';
+            if (score >= 200) {
+                message = `🏆 INCRÍVEL! ${score} pontos! És um mestre da caça ao Gumball!`;
+            } else if (score >= 100) {
+                message = `🎉 Muito bem! ${score} pontos! O Gumball ficaria orgulhoso!`;
+            } else if (score >= 50) {
+                message = `👍 Nada mal! ${score} pontos! Continua a treinar!`;
+            } else if (score >= 0) {
+                message = `😊 ${score} pontos! Tenta outra vez para melhorar!`;
+            } else {
+                message = `😅 ${score} pontos! Cuidado com a Nicole zangada!`;
+            }
+
+            if (score === highScore && score > 0) {
+                message += ' 🌟 NOVO RECORDE!';
+            }
+
+            statusElement.textContent = message;
+
+            document.getElementById('btn-start').textContent = '▶️ Jogar Novamente';
+            document.getElementById('btn-start').disabled = false;
+
+            // Mostra personagens no final
+            gameArea.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                    <div style="font-size: 4em; margin-bottom: 10px;">
+                        ${score >= 100 ? '🎉' : score >= 0 ? '😊' : '😅'}
+                    </div>
+                    <div style="font-size: 2em; color: #00d4ff;">
+                        ${score} pontos!
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
