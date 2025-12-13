@@ -26,8 +26,8 @@
         }
 
         .game-header-imgs img {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             object-fit: contain;
         }
 
@@ -78,8 +78,8 @@
             transition: transform 0.1s ease;
             user-select: none;
             z-index: 10;
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
         }
 
         .character img {
@@ -366,8 +366,8 @@
             charElement.dataset.name = char.name;
 
             // Posição aleatória
-            const maxX = gameArea.offsetWidth - 60;
-            const maxY = gameArea.offsetHeight - 60;
+            const maxX = gameArea.offsetWidth - 50;
+            const maxY = gameArea.offsetHeight - 50;
             const x = Math.random() * maxX;
             const y = Math.random() * maxY;
 

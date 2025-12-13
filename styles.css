@@ -274,8 +274,8 @@ body {
 }
 
 .personagem-img {
-    width: 140px;
-    height: 140px;
+    width: 100px;
+    height: 100px;
     object-fit: contain;
     margin: 0 auto 15px;
     display: block;
@@ -391,15 +391,15 @@ body {
 .jogo-icon {
     font-size: 3em;
     margin-bottom: 15px;
-    height: 80px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .jogo-icon img {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     object-fit: contain;
     transition: transform 0.3s ease;
 }
@@ -413,8 +413,8 @@ body {
 }
 
 .jogo-icon-duplo img {
-    width: 55px;
-    height: 55px;
+    width: 45px;
+    height: 45px;
 }
 
 .jogo-card h3 {
