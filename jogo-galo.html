@@ -54,6 +54,20 @@
             margin-bottom: 5px;
         }
 
+        .player .player-img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 5px;
+        }
+
+        .cell img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+
         .player .name {
             font-weight: bold;
         }
@@ -236,11 +250,11 @@
 
         <div class="player-info">
             <div class="player gumball active" id="player-gumball">
-                <span class="emoji">🐱</span>
+                <img src="img/gumball.png" alt="Gumball" class="player-img">
                 <span class="name">Tu (Gumball)</span>
             </div>
             <div class="player darwin" id="player-darwin">
-                <span class="emoji">🐟</span>
+                <img src="img/darwin.png" alt="Darwin" class="player-img">
                 <span class="name">Computador (Darwin)</span>
             </div>
         </div>
@@ -274,8 +288,10 @@
     </div>
 
     <script>
-        const PLAYER = '🐱';
-        const COMPUTER = '🐟';
+        const PLAYER = 'gumball';
+        const COMPUTER = 'darwin';
+        const PLAYER_IMG = '<img src="img/gumball.png" alt="Gumball">';
+        const COMPUTER_IMG = '<img src="img/darwin.png" alt="Darwin">';
 
         let board = ['', '', '', '', '', '', '', '', ''];
         let currentPlayer = PLAYER;
@@ -328,7 +344,7 @@
 
         function makeMove(index, player) {
             board[index] = player;
-            cells[index].textContent = player;
+            cells[index].innerHTML = player === PLAYER ? PLAYER_IMG : COMPUTER_IMG;
             cells[index].classList.add('taken');
 
             const winner = checkWinner();
@@ -460,7 +476,7 @@
             gameActive = true;
 
             cells.forEach(cell => {
-                cell.textContent = '';
+                cell.innerHTML = '';
                 cell.classList.remove('taken', 'win');
             });
 

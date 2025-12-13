@@ -60,11 +60,18 @@
 
         .character {
             position: absolute;
-            font-size: 3em;
             cursor: pointer;
             transition: transform 0.1s ease;
             user-select: none;
             z-index: 10;
+            width: 60px;
+            height: 60px;
+        }
+
+        .character img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .character:hover {
@@ -280,10 +287,10 @@
 
     <script>
         const characters = [
-            { emoji: '🐱', name: 'Gumball', points: 10, weight: 40 },
-            { emoji: '🐟', name: 'Darwin', points: 5, weight: 35 },
-            { emoji: '🐰', name: 'Anais', points: 15, weight: 15 },
-            { emoji: '😺', name: 'Nicole', points: -10, weight: 10 }
+            { img: 'img/gumball.png', name: 'Gumball', points: 10, weight: 40 },
+            { img: 'img/darwin.png', name: 'Darwin', points: 5, weight: 35 },
+            { img: 'img/anais.png', name: 'Anais', points: 15, weight: 15 },
+            { img: 'img/nicole.png', name: 'Nicole', points: -10, weight: 10 }
         ];
 
         let difficulty = 'medium';
@@ -334,7 +341,7 @@
             const char = getRandomCharacter();
             const charElement = document.createElement('div');
             charElement.className = 'character';
-            charElement.textContent = char.emoji;
+            charElement.innerHTML = `<img src="${char.img}" alt="${char.name}">`;
             charElement.dataset.points = char.points;
             charElement.dataset.name = char.name;
 

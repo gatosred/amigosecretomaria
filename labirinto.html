@@ -68,6 +68,12 @@
             transition: all 0.2s ease;
         }
 
+        .maze-cell img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+
         .maze-cell.wall {
             background: linear-gradient(135deg, #2d3436, #636e72);
         }
@@ -366,7 +372,7 @@
 
                         if (x === playerPos.x && y === playerPos.y) {
                             cellElement.classList.add('player');
-                            cellElement.textContent = '🐱';
+                            cellElement.innerHTML = '<img src="img/gumball.png" alt="Gumball">';
                         } else if (x === goal.x && y === goal.y) {
                             cellElement.classList.add('goal');
                             cellElement.textContent = '🎂';
