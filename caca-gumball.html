@@ -232,15 +232,16 @@
         }
 
         .instructions li {
-            margin: 5px 0;
-            padding-left: 25px;
-            position: relative;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .instructions li::before {
-            content: attr(data-emoji);
-            position: absolute;
-            left: 0;
+        .instructions li img {
+            width: 25px;
+            height: 25px;
+            object-fit: contain;
         }
 
         .high-score {
@@ -267,10 +268,10 @@
         <div class="instructions">
             <h3>Como jogar:</h3>
             <ul>
-                <li data-emoji="🐱">Clica no Gumball = +10 pontos</li>
-                <li data-emoji="🐟">Clica no Darwin = +5 pontos</li>
-                <li data-emoji="🐰">Clica na Anais = +15 pontos (aparece pouco!)</li>
-                <li data-emoji="😺">Cuidado com a Nicole zangada = -10 pontos!</li>
+                <li><img src="img/gumball.png" alt="Gumball"> Clica no Gumball = +10 pontos</li>
+                <li><img src="img/darwin.png" alt="Darwin"> Clica no Darwin = +5 pontos</li>
+                <li><img src="img/anais.png" alt="Anais"> Clica na Anais = +15 pontos (aparece pouco!)</li>
+                <li><img src="img/nicole.png" alt="Nicole"> Cuidado com a Nicole zangada = -10 pontos!</li>
             </ul>
         </div>
 
@@ -290,8 +291,10 @@
 
         <div class="game-area" id="game-area">
             <!-- Characters will appear here -->
-            <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 3em;">
-                🐱🐟🐰
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; gap: 20px;">
+                <img src="img/gumball.png" alt="Gumball" style="width: 60px; height: 60px; object-fit: contain;">
+                <img src="img/darwin.png" alt="Darwin" style="width: 60px; height: 60px; object-fit: contain;">
+                <img src="img/anais.png" alt="Anais" style="width: 60px; height: 60px; object-fit: contain;">
             </div>
         </div>
 
